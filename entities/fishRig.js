@@ -95,7 +95,8 @@ export function createRiggedFish({ scene, score = 0, type = 'classic', opts = {}
 
   const speedMultiplier = 1 + (score / 700);
   const rareTiny = Math.random() < 0.03;
-  const sizeScale = rareTiny ? 0.35 : THREE.MathUtils.randFloat(0.7, 1.5);
+  const weight = rareTiny ? THREE.MathUtils.randFloat(0.08, 0.18) : THREE.MathUtils.randFloat(0.3, 3.0);
+  const sizeScale = THREE.MathUtils.clamp(Math.cbrt(weight), 0.35, 1.5);
   const sizeSpeedFactor = 1 + (1.1 - sizeScale) * 0.6;
   const swimSpeed = (0.045 + Math.random() * 0.045) * speedMultiplier * sizeSpeedFactor;
   group.scale.set(sizeScale, sizeScale, sizeScale);
@@ -118,7 +119,7 @@ export function createRiggedFish({ scene, score = 0, type = 'classic', opts = {}
     drift: 0,
     sizeScale,
     rareTiny,
-    weight: Math.max(0.3, Math.pow(sizeScale, 3))
+    weight
   };
 
   group.traverse(o => { if (o.isMesh || o.isGroup) o.frustumCulled = false; });
