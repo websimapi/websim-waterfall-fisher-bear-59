@@ -337,7 +337,8 @@ function computeFishScore(fish, streak) {
     const base = 10;
     const weightBonus = Math.round(ud.weight ? ud.weight * 60 : 0);
     const rareBonusMult = ud.rareTiny ? 3 : 1;
-    return (base + weightBonus) * rareBonusMult * Math.max(1, streak);
+    const raw = (base + weightBonus) * rareBonusMult * Math.max(1, streak);
+    return Math.max(1, Math.round(raw / 100));
 }
 
 function grabAndThrow(fish) {
